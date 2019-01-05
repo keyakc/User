@@ -1,0 +1,21 @@
+<snippet>
+	<content><![CDATA[
+		//递归删除文件夹里的文件和文件夹
+public static void deleteFile(File f) {
+		File[] subFiles = f.listFiles();
+		for(File k : subFiles) {
+			if(k.isFile()) {
+				k.delete();
+			}else {
+				//有文件夹先清空再删除
+				deleteFile(k);
+				k.delete();
+			}
+		}
+	}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>delete</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

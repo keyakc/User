@@ -1,0 +1,67 @@
+<snippet>
+	<content><![CDATA[
+//方法1.
+$('upload').addEventListener('click', function (){				
+	uploadInput.addEventListener('change', function() {
+		console.log(uploadInput.files) // File listing!
+	});
+	for (var i = 0, fileCount = uploadInput.files.length; i < fileCount; i++) {
+		 console.log(uploadInput.files[i]);
+	}
+	var maxAllowedSize = 1000000;
+	var file = uploadInput.files[0];
+	
+	if(uploadInput.files[0].size > maxAllowedSize) {
+		alert("超过文件上传大小限制");
+	}else{
+        var form = new FormData();
+        form.append('file', file, file.name);
+        form.enctype = "multipart/form-data";
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "/api/upload", true);
+        xhr.onload = function () {
+        	  if (xhr.status === 200) {
+        	    alert("文件上传成功");
+        	    var o = JSON.parse(xhr.responseText);
+        	    //控制层返回向控制层请求图片的路径
+        	    imageUrl = o && o.result;
+        	    image.value = imageUrl;
+        	    imgpre.src = imageUrl;
+        	  } else {
+        	    alert('An error occurred!');
+        	  }
+        };
+   		xhr.send(form);
+	}	
+});
+//方法2.
+function getImage(){
+    //创建一个设置表单数据的对象
+    var formData = new FormData();
+    //获取上传文件的文件对象
+    var file = document.getElementById("iconPic").files[0];
+
+    formData.append("file",file);
+    $.ajax({
+        url:"../user/upload.do",
+        data:formData,
+        type:"post",
+        dataType:"json",
+        //不处理数据
+        contentType:false,
+        processData:false,
+        success:function(obj){
+            alert(obj.messge);
+            //创建url对象  读取本地图片
+            var url = window.URL.createObjectURL(file);
+            icon.src = url;
+        }
+    });
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

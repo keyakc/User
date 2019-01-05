@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+Date dNow = new Date( );
+SimpleDateFormat ft = 
+	new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+System.out.println("Current Date: " + ft.format(dNow));
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>date</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.java</scope> -->
+</snippet>

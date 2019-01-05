@@ -1,0 +1,75 @@
+<snippet>
+	<content><![CDATA[		
+private static String driver;
+	 private static String url;
+	 private static String username;
+	 private static String password;
+	 
+	 private static String initSize;
+	 private static String maxSize;
+
+	 private static BasicDataSource dataSource;
+
+	 static{
+	 	//读取外部文件
+		Properties prop = new Properties();
+		InputStream ips = DBUtils.class
+				.getClassLoader()
+				.getResourceAsStream("jdbc.properties");				
+		try {
+			prop.load(ips);
+			driver = prop.getProperty("driver");
+			url = prop.getProperty("url");
+			username = prop.getProperty("username");
+			password = prop.getProperty("password");
+			initSize = prop.getProperty("initSize");
+			maxSize = prop.getProperty("maxSize");
+			
+			dataSource = new BasicDataSource();
+			dataSource.setDriverClassName(driver);
+			dataSource.setUrl(url);
+			dataSource.setUsername(username);
+			dataSource.setPassword(password);
+			//设置初始化连接数量
+			dataSource.setInitialSize(
+					Integer.parseInt(initSize));
+			//设置最大连接数据
+			dataSource.setMaxActive(
+					Integer.parseInt(maxSize));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}			
+	}
+	public static Connection getConn() throws Exception{		
+		return dataSource.getConnection();
+	}
+	public static void close(Connection conn, Statement stat,ResultSet rs){
+		try {
+			if (rs!=null) {
+				rs.close();
+			}
+			if (stat!=null) {
+				stat.close();
+			}
+			if (conn!=null) {
+				//归还之前打开自动提交
+				conn.setAutoCommit(true);
+				//归还给连接池
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+//driver=com.mysql.jdbc.Driver
+//url=jdbc:mysql://localhost:3306/mydb1?useUnicode=true&characterEncoding=utf8
+//username=root
+//password=Mysql123456
+//initSize=3
+//maxSize=3
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DBUtils</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

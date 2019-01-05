@@ -1,0 +1,58 @@
+<snippet>
+	<content><![CDATA[
+/**
+	 * 添加cookie的方法
+	 */
+	public static void addCookie(String name,
+			String value,String path,int age,
+			HttpServletResponse response) 
+			throws UnsupportedEncodingException{
+		
+		String value1 = 
+				URLEncoder.encode(value,
+						"utf-8");
+		Cookie c = new Cookie(name,value1);
+		c.setMaxAge(age);
+		c.setPath(path);
+		response.addCookie(c);
+		
+	}
+	
+	/**
+	 * 依据cookie的名称，读取对应的cookie的值，
+	 * 如果找不到，返回null。
+	 */
+	public static String findCookie(String name,
+			HttpServletRequest request) throws UnsupportedEncodingException{
+		Cookie[] cookies = 
+				request.getCookies();
+		if(cookies != null){
+			for(Cookie c : cookies){
+				if(name.equals(c.getName())){
+					String value = 
+						URLDecoder.decode(
+						c.getValue(),"utf-8");
+					return value;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 删除cookie
+	 */
+	public static void delete(String name,
+			HttpServletResponse response,
+			String path){
+		Cookie c = new Cookie(name,"");
+		c.setMaxAge(0);
+		c.setPath(path);
+		response.addCookie(c);
+	}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cookieUtilForJava</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,59 @@
+<snippet>
+	<content><![CDATA[
+/**
+ * 上传文件到服务器
+ * @param file
+ * @param session
+ * @return
+ * @throws IllegalStateException
+ * @throws IOException
+ */
+@RequestMapping("/upload.do")
+@ResponseBody
+public ResponseResult<Void> upload(MultipartFile file, HttpSession session) throws IllegalStateException, IOException{
+	ResponseResult<Void> rr = new ResponseResult<Void>();
+	//获取服务器路径
+	String servletPath = session.getServletContext().getRealPath("/");
+	System.out.println("servletPath is " + servletPath);
+	//实体存到服务器·
+	file.transferTo(new File(servletPath, "/upload/"+file.getOriginalFilename()));
+	//相对应用的路径存到数据库
+	userService.updateImage("/upload/" + file.getOriginalFilename(),
+			getIdFromSession(session));
+	rr.setState(1);rr.setMessage("上载成功！");
+	return rr;
+}
+
+// 分页代码
+<c:forEach var="i" begin="1" end="${pages}">
+    <a href="../goods/showSearch.do?categoryId=${categoryId}&page=${i}"
+
+    <c:if test="${curpage==i}">
+        style="color:red"
+    </c:if>
+
+    >${i}</a>
+</c:forEach>
+
+// 批量删除
+<!-- void deleteByBatch(Integer[] ids); -->
+<delete id="deleteByBatch">
+    delete from t_cart
+    where id in
+
+    <!--collection表示变量的类型,如果是数组,array;
+    item表示定义变量
+    open表示以什么开始
+    close表示以什么结束
+    separator表示数据之间的分隔符
+    -->
+    <foreach collection="array" item="id" open="(" separator="," close=")">
+        #{id}
+    </foreach>
+</delete>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>usuallogic</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

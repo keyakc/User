@@ -1,0 +1,14 @@
+<snippet>
+	<content><![CDATA[
+<bean id="jspViewResolver" 
+	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/"/><!-- 删除 jsp/ -->
+	<property name="suffix" value=".jsp"/>
+</bean>
+<context:component-scan base-package="com.netease.course.web.dao"/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>jspViewResolver</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

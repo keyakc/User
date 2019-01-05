@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+// cookie设置
+// setcookie
+function setCookie (name, value, expires, path, domain, secure) {
+var cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+if (expires)
+    cookie += '; expires=' + expires.toGMTString();
+if (path)
+    cookie += '; path=' + path;
+if (domain)
+    cookie += '; domain=' + domain;
+if (secure)
+    cookie += '; secure=' + secure;
+document.cookie = cookie;
+}
+// getcookie
+function getCookie (name) {
+    var all = document.cookie;
+    if (all === '')
+        return "";
+    var list = all.split('; ');
+    for (var i = 0; i < list.length; i++) {
+        if (list[i].indexOf(name) > -1 ) {
+        	return decodeURIComponent(list[i].substring(name.length+1))
+        }
+    }
+}
+// removecookie
+function removeCookie (name, path, domain) {
+    setCookie(name, '', new Date(0), path, domain);
+}
+	 
+//jQuery  expires 存活天数
+//$.cookie("username", "",{expires: -1});	
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cookie1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>text.html</scope> -->
+</snippet>

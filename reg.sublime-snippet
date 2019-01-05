@@ -1,0 +1,143 @@
+<snippet>
+	<content><![CDATA[
+\d:[0-9]	\D:[^\d]
+\s:space 	\S:[^\s]
+\w:[A-Za-z0-9] 	\W:[^\w]
+(a|b|c) === [abc]
+()捕获	(?:)不捕获
+
+// 是否带有小数
+/^\d+\.\d+$/
+
+// 校验是否中文名称组成
+/^[\u4E00-\u9FA5]{2,4}$/
+
+// 校验是否全由8位数字组成
+/^[0-9]{8}$/
+
+// 校验电话码格式
+/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/
+
+// 电话
+/^1[3|4|5|8][0-9]\d{4,8}$/
+<input id="telephone" name="telephone" type="tel" class="u-txt" maxlength="11"
+    required pattern="^0?(13[0-9]|15[012356789]|18[0236789]|14[57])[0-9]{8}$">
+
+// jQ校验
+ // 手机号码验证
+jQuery.validator.addMethod("isPhoneNumber",function (value,element) {
+    var reg = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+    return reg.test(value);
+});
+
+// 身份证日期格式
+jQuery.validator.addMethod("hasRectDate",function (value,element) {
+    var judgeDate = value.substring(6,14);
+    var ereg = /^(\d{4})(\d{2})(\d{2})$/;
+    var r = judgeDate.match(ereg);
+    if (r == null) {	return false;	}
+    var d = new Date(r[1], r[2] - 1, r[3]);
+    var result = (d.getFullYear() == r[1] && (d.getMonth() + 1) == r[2] && d.getDate() == r[3]);
+    return result;
+},'格式错误');
+
+// 身份证格式
+jQuery.validator.addMethod("hasRectLength",function (value,element) {
+    var flag = false;
+    var regIdCard=/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+    flag = regIdCard.test(value);
+    console.log("reg testvalue"+regIdCard.test(value));
+    return flag;
+},"格式错误");
+
+ $("#basicInfoForm").validate({
+    ignore : [],// 不忽略hidden标签
+    rules : {
+        mobile:{
+            isPhoneNumber : true,
+        },
+        resumeFileUrl:{
+            required : true,
+        },
+        cardFileUrl : {
+            required : true,
+        },
+        cardNo : {
+            required : true,
+            hasRectDate : true,
+            hasRectLength : true,
+        }
+    },
+    messages : {
+        mobile:{
+            isPhoneNumber : '请填写正确电话格式',
+        },
+        resumeFileUrl:{
+            required : '必填信息',
+        },
+        cardFileUrl : {
+            required : '必填信息',
+        },
+        cardNo : {
+            required : '必填信息',
+        }
+    },
+})
+
+// 区域日期校验
+<script>
+	function getStartTime(node) {// 使用起始时间固定
+	    var input_trailStartTime = $(node).parent("td").find("input").get(0);
+        var inputs_contractTime = $(node).closest("tr").children("td").eq(1).find("input");// 合同期限栏时间
+        var startTime = inputs_contractTime.get(0).value;// 合同起始时间
+		if(startTime.length != 0) input_trailStartTime.value = startTime;
+		$(input_trailStartTime).attr('readonly','true');
+    }
+
+     $("#inputForm").attr('lock1','false');
+     $("#inputForm").attr('lock2','false'); 
+	function regContractTrailTime${vs.index}(node) {
+        var siblingsInput = $(node).siblings("input").get(0);//获取相邻节点
+        if(node.value.length == 0 || siblingsInput.value.length == 0) return;
+		var jQNode = $(node);
+		var form = $(node).closest("form");
+		var contractTime = jQNode.closest("tr").children("td").eq(1).find("input");// 合同期限栏时间
+		var startTime = contractTime.get(0).value,
+			endTime = contractTime.get(1).value;
+		var inputs = jQNode.parent("td").find("input");// 试用期限栏
+		var trailStartTime = inputs.get(0).value;
+		var trailEndTime = inputs.get(1).value;
+		// 时间比较
+		var result1 = false,// 试用起始不小于合同起始日期
+			result2 = false,// 试用终止不大于合同终止日期
+			result3 = false;// 试用终止不小于试用起始日期
+		result1 = (new Date(startTime.replace(/-/g,"\/")) <= new Date(trailStartTime.replace(/-/g,"\/")));
+        // 若Input内包含非数字 用[^\d]
+		result2 = (new Date(trailEndTime.replace(/-/g,"\/")) <= new Date(endTime.replace(/-/g,"\/")));
+		result3 = (new Date(trailStartTime.replace(/-/g,"\/")) < new Date(trailEndTime.replace(/-/g,"\/")));
+		var errMessage = "";
+		if(!result1) errMessage = "试用起始日期不小于合同起始日期";
+		if(!result2) errMessage = "试用终止日期不大于合同终止日期";
+		if(!result3) errMessage = "试用终止不小于试用起始日期";
+		if(!result1 || !result2 || !result3){
+            form.attr('lock1','false');
+			form.attr('onsubmit','return false;');
+			var errNode = $('<p class="error">' + errMessage + '</p>');
+			if(!jQNode.closest("td").find("p").hasClass("error")){
+				jQNode.closest("td").append(errNode);
+			}
+		}else{
+			jQNode.closest("td").find(".error").remove();
+            form.attr('lock1','true');
+            if(form.attr('lock1')=='true' && form.attr('lock2') == 'true')
+			form.attr('onsubmit','return true;');
+		}
+	}
+</script>
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>reg</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

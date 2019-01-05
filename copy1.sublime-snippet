@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+//浅拷贝
+var obj = { a:1, arr: [2,3] };
+var shallowObj = shallowCopy(obj);
+
+function shallowCopy(src) {
+  var dst = {};
+  for (var prop in src) {
+    if (src.hasOwnProperty(prop)) {
+      dst[prop] = src[prop];//向左覆盖
+    }
+  }
+  return dst;
+}
+
+// 赋值属性
+  // extend({a:1}, {b:1, a:2}) -> {a:1, b:1}
+  function extend(o1, o2){//向左填充
+    for(var i in o2) if(typeof o1[i] === 'undefined'){
+      o1[i] = o2[i]
+    } 
+    return o1
+  }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>copy1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.html</scope>
+</snippet>

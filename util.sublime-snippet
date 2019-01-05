@@ -1,0 +1,62 @@
+<snippet>
+	<content><![CDATA[
+// 将HTML转换为节点
+  function html2node(str){
+    var container = document.createElement('div');
+    container.innerHTML = str;
+    return container.children[0];
+  }
+
+//内容判空
+var listHtml = $(".list").find("tr+tr").html();
+var isUserSearch = '${isUserSearch}';
+console.log("isUserSearch is " + isUserSearch);
+// 表内容空并且不是搜索所导致则重定向到添加页面
+if(listHtml === undefined && isUserSearch !== 'true' ){
+    window.location.href = "${ctx}/sys/erpProjectTenderInfo/form";
+    return;
+}
+
+// 用户搜索信息提示
+<script>
+	// 如果为空并且是用户搜索
+	if($("tbody tr+tr").html() == undefined ){
+        $(".pagination").hide('fast',function () {
+            if(${not empty isUserSearch && isUserSearch == 'true' }){
+                confirmx("没有符合条件的数据，请检查检索条件。", function(){}, null);
+            }
+        });
+
+	};
+</script>
+
+// 增加行
+// 学历增加
+var addEduInfoButtonLock = false;
+$(".addEduInfo").click(function () {
+
+    var thisTable = $(this).closest("table");
+
+    // 首次点击新增触发修改
+    if(addEduInfoButtonLock == false){
+        thisTable.find(".modify").click();
+        thisTable.find(".modify").text('保存');
+        addEduInfoButtonLock = true;
+    }
+
+ // 取最后一行序号
+var lastIndex = parseInt(thisTable.find(".list tr:last-child").attr("data-length")) || 0;
+	lastIndex += 1;
+	if(thisTable.find(".list tr:last-child").attr("data-length") == undefined) lastIndex = 0;
+
+ //模板
+    var temp = '';
+    thisTable.children(".list").append(temp);
+ })	
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>util</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>text.html</scope> -->
+</snippet>

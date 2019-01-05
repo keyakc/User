@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+.window{
+			outline:1px solid black;
+			height:200px;
+			width:50%;
+			margin-left:50px;
+			margin-top:50px;
+		}
+		.parent{
+			margin-left: -20px;
+			outline:1px solid pink;
+			height:150px;			
+			/*缩进掉padding-left*/
+		}
+		.column{
+			float: left;
+			width: 25%;					
+			box-sizing: border-box;
+			height:100px;
+			padding-left: 20px;
+			outline:1px solid gray;
+		}
+		.column p{
+			outline:1px solid red;
+			height:50px;
+			width:100%;
+		}
+			
+<div class="window">
+		<div class="parent">
+			<div class="column"><p>1</p></div>
+			<div class="column"><p>2</p></div>
+			<div class="column"><p>3</p></div>
+			<div class="column"><p>4</p></div>
+		</div>
+	</div>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dl1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.html</scope>
+</snippet>

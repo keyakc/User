@@ -1,0 +1,177 @@
+<snippet>
+	<content><![CDATA[
+
+// 创建目录
+File dir = new File("./demo");
+// File dir = new File("./a/b/c/d/e/f"); 多级
+	if(!dir.exists()){
+		dir.mkdir();
+		// dir.mkdirs(); 多级
+		System.out.println("目录已创建!");
+	}else{
+		System.out.println("目录已存在!");
+	}
+
+// 删除目录
+File dir = new File("./demo");
+if(dir.exists()){
+	/*
+	 * 删除目录有一个前提条件,即:该目录
+	 * 必须是一个空目录才可以删除.
+	 */
+	dir.delete();
+	System.out.println("目录已删除");
+}else{
+	System.out.println("目录不存在!");
+}
+
+// 创建文件
+File file = new File("./test.txt");
+/*
+ * boolean exists()
+ * 该方法用于判断当前File表示的文件或目录
+ * 是否已经存在,存在则返回true
+ */
+if(!file.exists()){
+	file.createNewFile();
+	System.out.println("文件已创建!");
+}else{
+	System.out.println("文件已存在!");
+}
+
+// 删除文件
+File file = new File("./test.txt");
+
+if(file.exists()){
+	file.delete();
+	System.out.println("删除完毕!");
+}else{
+	System.out.println("文件不存在!");
+}
+
+
+
+// 文件属性
+ * 在eclipse中运行程序时,"当前目录"指定位该
+ * 类所处的项目目录.
+ * 
+ */
+File file = new File("./demo.txt");
+//获取名字
+String name = file.getName();
+//长度
+long length = file.length();
+System.out.println("大小:"+length+"字节");
+//是否可读可写
+boolean cr = file.canRead();
+boolean cw = file.canWrite();
+System.out.println("可读:"+cr);
+System.out.println("可写:"+cw);
+//是否为隐藏文件
+boolean ih = file.isHidden();
+System.out.println("是否隐藏:"+ih);
+
+// 罗列文件
+/*
+ * 获取当前目录中的所有子项
+ */
+File dir = new File(".");
+
+File[] subs = dir.listFiles();
+System.out.println(dir.getName()+"目录中有"+subs.length+"个子项");
+for(int i=0;i<subs.length;i++){
+	/*
+	 * boolean isFile()
+	 * 判断当前File表示的是否为文件
+	 * 
+	 * boolean isDirectory()
+	 * 判断当前File表示的是否为目录
+	 */
+	if(subs[i].isFile()){
+		System.out.println("文件:"+subs[i].getName());
+	}
+	if(subs[i].isDirectory()){
+		System.out.println("目录:"+subs[i].getName());
+	}
+}
+
+// 获取一个目录中满足条件的子项(过滤器)
+public class ListFilesDemo2 {
+	public static void main(String[] args) {
+		/*
+		 * 获取当前目录中所有的文本数据
+		 */
+		File dir = new File(".");
+		// MyFilter filter = new MyFilter();
+		
+		// 使用匿名内部类形式完成文件过滤器创建
+		FileFilter filter = new FileFilter(){
+			public boolean accept(File file) {
+				return file.getName().startsWith(".");
+			}			
+		};
+		File[] subs = dir.listFiles(filter);
+		
+		for(int i=0;i<subs.length;i++){
+			System.out.println(subs[i].getName());
+		}
+	}
+}
+
+/*复制文件
+ * 使用文件输入流读取原文件,使用文件输出流
+ * 向目标文件中写出.然后顺序从原文件读取
+ * 字节写入目标文件完成复制操作.
+ * 使用块方式复制
+ */
+FileInputStream fis
+	= new FileInputStream("music.mp3");
+FileOutputStream fos
+	= new FileOutputStream("music_cp2.mp3");		
+byte[] data = new byte[1024*10];
+int len = -1;
+while((len = fis.read(data))!=-1){
+	fos.write(data,0,len);
+}
+System.out.println("复制完毕!");
+fis.close();
+fos.close();
+
+// 复制文件（缓冲流）
+//将缓冲流连接在文件流上,提高读文件效率
+BufferedInputStream bis = new BufferedInputStream(
+	new FileInputStream("music.mp3"));
+
+BufferedOutputStream bos = new BufferedOutputStream(
+	new FileOutputStream("music_cp3.mp3"));
+int d = -1;
+/*
+ * 缓冲流实际上本质就是进行块读写操作,无论我们
+ * 使用缓冲流进行何种读写方式(随机读写,块读写)
+ * 最终都会被缓冲流转换为块读写形式通过文件流
+ * 进行实际操作.
+ * 缓冲流内部维护了一个8k的字节数组,用于块读写
+ * 操作.
+ */
+while((d = bis.read())!=-1){
+	bos.write(d);
+}
+System.out.println("复制完毕!");
+//只需要关最外层的高级流即可
+bis.close();
+bos.close();
+
+// 输出流
+FileOutputStream fos = new FileOutputStream("fos.txt",true);
+String str = "模型一面墙，北京几套房.";
+byte[] data = str.getBytes("UTF-8");
+fos.write(data);
+System.out.println("写出完毕!");
+fos.close();
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>file</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

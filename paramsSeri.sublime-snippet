@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+/**
+ * data = {
+	name : "saber",
+	ChineseName : "亚瑟",
+	password : "avalon",
+	email : "dongmu@163.com"
+	}
+ * @type {Object}
+ */
+function serialize(data){
+	if(!data) return '';
+	var arr = [];
+	for(var name in data){
+		if(!data.hasOwnProperty(name)) continue;
+		if(typeof data[name]==='function') continue;
+		var value = data[name].toString();
+		arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(value));
+	}
+	return arr.join('&');
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>paramsSeri</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

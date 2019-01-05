@@ -1,0 +1,92 @@
+<snippet>
+	<content><![CDATA[
+/*建库*/
+create database db_name character set utf8;
+/*删库*/
+drop database db_name;
+/*建表*/
+create table table_name(prop_name type primary key auto_increment comment '这是主键', prop_name type) engine=innodb charset=utf8;
+/*改表名*/
+rename table table_name to new_name;
+/*修改字符+引擎*/
+alter table table_name engine=innodb charset=utf8;
+/*添加列*/
+alter table table_name add pro_name type after pro_name;
+/*删除列*/
+alter table table_name drop pro_name;
+/*修改列*/
+alter table table_name change pro_name new_name new_type;
+/*修改+移位*/
+alter table table_name modify pro_name type after prop_name;
+
+/*删除表*/
+drop table if exists table_name;
+/*查看数据表结构*/
+DESC table_name
+/*查看详细结构*/
+show create table table_name
+/*修改字段名*/
+alter table 表 change 旧字段 新字段 类型;
+/*修改字段类型*/
+alter table 表 modify 字段名 类型;
+/*删除数据*/
+delete from 表 where 条件
+/*修改数据*/
+update 表 set 字段1=值1,字段2=值2 where 
+
+/*视图（可对其增删改）*/
+create view v_emp_20 as (select * from emp where deptno=20 and sal<3000);
+/*修改视图*/
+格式: create or replace view 视图名 as 子查询
+create or replace view vemp10 as (select * from emp where deptno=10 and sal<2000);
+
+
+对数据库创建用户同时授权
+首选使用：grant select,update on *.* to '用户名'@'localhost'
+ identified by '密码'；
+
+使用select语句查询用户权限
+select host,user,select_priv,update_priv from mysql.user where user='用户名';
+
+删除用户
+drop user '用户名'@'localhost';
+用户登录
+mysql -u用户名 -p密码；
+
+
+Linux系统登录数据库
+mysql -uroot -p
+
+window下的导入导出
+
+1.导出整个数据库
+mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+例如：mysqldump -u dbuser -p dbname > dbname.sql
+
+2.导出一个表
+mysqldump -u 用户名 -p 数据库名 表名> 导出的文件名
+mysqldump -u dbuser -p dbname users> dbname_users.sql
+
+3.导出一个数据库结构
+mysqldump -u dbuser -p -d --add-drop-table dbname >d:/dbname_db.sql
+-d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
+
+4.导入数据库
+常用source 命令
+进入mysql数据库控制台，如
+mysql -u root -p
+mysql>use 数据库
+然后使用source命令，后面参数为脚本文件(如这里用到的.sql)
+mysql>source d:/dbname.sql
+
+ 
+
+1. 导入数据到数据库
+
+mysql -uroot -D数据库名 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sql</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

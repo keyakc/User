@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+animation:${1:name} ${2:dur} ${3:type} ${4:delay} ${5:times} ${6:direction} ${7:final} ${8:state}
+
+type: ease 低速|ease-in|ease-out|ease-in-out|linear|cubic-bezier(n,n,n,n) 0~1
+times: 3|infinite
+direction: normal|reverse 反向|alternate 往复|alternate-reverse |inherit;
+final: none|forwards 结束不动|backwards|both|inherit;
+state: paused|running
+
+animation:abc 2s ease 0s infinite alternate both paused;
+		
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ani2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

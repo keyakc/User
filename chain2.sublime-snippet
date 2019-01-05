@@ -1,0 +1,70 @@
+<snippet>
+	<content><![CDATA[
+// URL变化触发器（监听器）
+function Monitor(opt){
+	opt = opt || {};
+	var last = null;
+
+	var runURLCheck = function(){
+		var url = location.href;
+		if(url !== last){ //若url发生变化
+			var event = {
+					oldValue : last,
+					newValue : url
+				};
+			last = url;
+			if(typeof opt.onchange === 'function'){ //执行注册的事件函数
+				opt.onchange(event);
+			}
+		}
+	}
+
+	window.setInterval(runURLCheck, 500);
+}
+
+// 使用
+var monitor = new Monitor({
+	onchange : function(event){
+		// TODO something
+	}
+});
+
+// 中间件
+var mws = [];// 所有中间件存储在数组中
+var spa = {
+	add : function(mw){
+		if(typeof mw === 'function'){
+			mws.push(mw);
+		}
+	},
+	dispatch : function(context){
+		var index = 0;
+		var next = function(){
+			var mw = mws[index];
+			index ++;
+			if(mw){
+				return mw(context, next);// 如果需要下一个函数处理，则传入next 返回函数或boolean
+			}
+		};
+		next();
+	}
+}
+
+// 整合
+var monitor = new Monitor({
+	onchange : function(event){
+		spa.dispatch({
+			request : new URL(event.newValue),
+		})
+	}
+});
+
+// 输入解析
+// 如：/group/:gid/user/:uid
+//	   /group/56789/user/6789
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>chain2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

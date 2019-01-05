@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+	<!-- interceptor 拦截器
+	在 spring-mvc中配置拦截器的拦截位置 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- mapping 用于设定拦截器的拦截位置 -->
+			<mvc:mapping path="/test.do"/>
+			<!-- 引用 注解声明的Bean demoInterceptor -->
+			<ref bean="demoInterceptor"/>		
+		</mvc:interceptor>
+		
+		<!-- 配置权限拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/*.do"/>
+			<!-- 放过的请求 -->
+			<mvc:exclude-mapping path="/toLogin.do"/>
+			<mvc:exclude-mapping path="/login.do"/>
+			<mvc:exclude-mapping path="/upload.do"/>
+			//类路径
+			<ref bean="accessInterceptor"/> 
+		</mvc:interceptor>
+	</mvc:interceptors>	
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>interceptor</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

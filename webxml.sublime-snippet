@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+<servlet>
+<description></description>
+<display-name>DispatcherServlet</display-name>
+<servlet-name>DispatcherServlet</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<init-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:spring-mvc.xml</param-value>
+</init-param>
+<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+<servlet-name>DispatcherServlet</servlet-name>
+<url-pattern>*.do</url-pattern>
+</servlet-mapping>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>webxml</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

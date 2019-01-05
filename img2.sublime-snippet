@@ -1,0 +1,42 @@
+<snippet>
+	<content><![CDATA[
+<style>
+	#parent{
+		width:50%;
+		outline:2px solid black;
+		margin:10px;
+	}		
+	/*如何使容器在图片没加载完全时不塌陷*/
+	#container{
+		width:50%;
+		/*padding-top:50%;*/
+		outline:2px solid red;
+		position:relative;
+	}
+	/*利用内容高度来撑开而非padding，这个方案跟消除浮动所用的方案非常相似：给容器添加一个子元素（也是伪元素），并把子元素的margin/padding设为100%，使其实际高度相当于容器的宽度，如此一来，便能把容器的高度撑至与宽度一致了。由于添加子元素与HTML语义化相悖，因此更推荐使用伪元素(:after)来实现此方案。*/
+	/*增加子元素，占高为父容器container的100%*/
+	#container:after{
+		content:'';
+		display:block;
+		padding-top:100%;
+		outline:2px solid blue;
+		/*margin-top:100%;*/
+	}
+	img{
+		position:absolute;
+		top:0;
+		width:100%;
+	}
+</style>
+
+<div id="parent">
+	<div id="container">
+		<img src="img/bge/bge_10.jpg" alt="">
+	</div>
+</div>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>img2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

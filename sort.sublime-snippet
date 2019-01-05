@@ -1,0 +1,81 @@
+<snippet>
+	<content><![CDATA[
+function insert_sort(array){
+	var i, j, temp, n = array.length;
+	for(i = 1; i < n; i++){
+		//存起来
+		temp = array[i];
+		//从j(i)向前循环一一比较
+		for(j = i; j > 0 && array[j-1] > temp; j--){
+			//凡比temp大的项后退一位
+			array[j] = array[j-1];
+		}
+		//temp入位
+		array[j] = temp;
+	}
+}
+
+function select_sort(array){
+    var i, j, min, t, n = array.length;
+    for(i = 0; i < n - 1; i++){
+    	//假设i是最小值角标
+        min = i;
+        for(j = i + 1; j < n; j++)		        	
+        	if(array[i] > array[j])
+        	//获得最小元素的角标		        		
+                min = j;
+        //如果出现比array[i]小的元素
+        if(min != i){
+            t = array[min];
+            array[min] = array[i];
+            array[i] = t;
+        }
+    }
+}
+
+function bubble_sort(array){
+    var i, j, temp, n = array.length;
+    for (j = 0; j < n - 1; j++){
+    	// 每次向后比较一个元素，检验顺序
+        for (i = 0; i < n - 1 - j; i++){
+            if(array[i] > array[i + 1])
+            {
+            	temp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = temp;
+            }
+        }
+    }
+}
+
+function Qsort(arr, left, right){
+	var i,j,temp;
+	if(left < right){
+		i = left;
+		j = right;
+		temp=arr[i];
+	}else{
+		return;
+	}
+	do{
+		while(i < j && arr[j] > temp) j--;
+		if(i < j){ 
+			arr[i] = arr[j];
+			i++;
+		}
+		while(i < j && arr[i] < temp) i++;
+		if(i < j){ 
+			arr[j] = arr[i];
+			j--;
+		}
+	}while(i != j)
+	arr[i] = temp;
+	Qsort(arr, left, i - 1);
+	Qsort(arr, i + 1,right);	
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sort</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

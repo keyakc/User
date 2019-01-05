@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+transition: property duration timing-function delay;
+timeing-function:linear|ease|ease-in|ease-out|ease-in-out|cubic-bezier(n,n,n,n);
+
+transform: function1,function2;
+
+transform-origin: x-axis,y-axis;
+x-axis: left|center|right|length|%
+y-axis: top|center|bottom|length|%
+
+transform-style:perserve-3d;
+
+perspective: 2000px;
+
+function: matrix(n*6)|matrix3d(n*16)|translate(x[,y]) 平移|translate3d(x,y,z)|translateX(px)|scale(x,y) 缩放|scale3d(x,y,z)|scaleX(2)|rotate(1,0,1,deg) 旋转|rotateX(deg)|perspective()
+
+backface-visibility: visible|hidden
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>trans</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,97 @@
+<snippet>
+	<content><![CDATA[
+// 审批过程
+var chains = [];
+
+//初始化chains
+// function def(func){
+// 	chains.push(func);
+// }
+
+function def(){
+	var fun;
+	// 主任
+	func = function (req, next){
+		if(req.amount < 5){
+		console.log('主任审批通过！');
+		return true;
+		}else{
+			next();
+		}
+	}
+	chains.push(func);
+
+	// 副董事长
+	func = function (req, next){
+		var amount = req.amount;
+		if(5 <= amount && amount < 10){
+			console.log("副董事长审批通过！");
+			return true;
+		}else{
+			next();
+		}
+	}
+	chains.push(func);
+
+	// 董事长
+	func = function (req, next){
+		var amount = req.amount;
+		if(10 <= amount && amount < 50){
+			console.log("董事长审批通过！");
+			return true;
+		}else{
+			next();
+		}
+	}
+	chains.push(func);
+
+	// 董事会
+	func = function (req, next){
+		var amount = req.amount;
+		if(amount >= 50){
+			console.log("董事会审批通过！");
+			return true;
+		}else{
+			next();
+		}
+	}
+	chains.push(func);
+
+	// 若无人处理
+	func = function(req, next){
+		var ok = next();// undefined
+		if(!ok){
+			console.error('无人可审批金额[' + req.amount + ']采购单！');
+		}
+	}
+	chains.push(func);
+}
+
+def(); //初始化
+
+// test
+var req = {
+	amount : 'fs',
+};
+
+approve(req);
+
+// 责任链实现函数
+function approve(req){
+	var index = 0;
+	var next = function(){
+		var func = chains[index]; // chains [func1, func2, func3...]
+		index ++;
+		if(!!func){
+			return func(req,next);//如果本func需要next处理，则递归
+		}
+	};
+	next();
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>chain1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

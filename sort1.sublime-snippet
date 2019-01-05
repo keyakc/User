@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+
+/*Java
+ * 推荐的排序方式
+ * 当遇到排序自定义类型元素,或者集合元素
+ * 自身的比较规则不满足排序时都建议使用
+ * 下面的方式排序.
+ * 该sort方法要求额外传入一个比较器,并按照
+ * 比较器规则比较集合元素并进行排序.因此该
+ * 排序方法不要求集合元素实现Comparable接口
+ */
+Collections.sort(list, new Comparator<String>(){
+	public int compare(String o1, String o2) {
+		return o1.length()-o2.length();
+	}
+});
+System.out.println(list);
+// 或者Object实现Comparator接口，再sort
+
+//JavaScript
+var students = [
+	{id:1,score:80},
+	{id:2,score:50},
+	{id:3,score:70}
+];
+var byScore = function(a,b){//由大到小
+	return b.score-a.score;
+};
+students.sort(byScore);
+
+var studentNames = ["wq","xl","gp"];
+studentNames.sort();//由大到小
+studentNames;  // ["gp","wq","xl"]
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sort1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.html</scope>
+</snippet>

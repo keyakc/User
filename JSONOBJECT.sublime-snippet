@@ -1,0 +1,81 @@
+<snippet>
+	<content><![CDATA[
+public void doPost(HttpServletRequest request, HttpServletResponse response)  
+            throws IOException, ServletException {  
+         
+        String userid = request.getParameter("username");
+        String pwd = request.getParameter("password");
+        
+        JSONObject json = new JSONObject();  
+        
+        AdminDAO adminDAO = new AdminDAO();
+        List<Admin> userList = adminDAO.findByProperty("usrid", userid);
+
+        if(userList.get(0).getPassword().equals(pwd)){
+             json.put("success", true);
+             HttpSession session = request.getSession();
+             session.setAttribute("usrid", userid);
+        } else {
+             json.put("success", false);
+             json.put("meg", "sorry");
+        }          
+                 
+        PrintWriter pw = response.getWriter();   
+        pw.print(json.toString());  
+        pw.close();  
+    }  
+复制代码
+ (2)HomePage.java 在跳转到相关页面时，获取并判断session
+
+复制代码
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        JSONObject json = new JSONObject();  
+       
+        HttpSession session = request.getSession(); 
+        if(session==null||session.getAttribute("usrid")==null)
+        {
+             json.put("success", false);
+             json.put("meg", "Time out,please login again!");
+        }
+        else
+        {
+           ...
+            json.put("jsonArray", array);     
+        }    
+        
+           
+        PrintWriter pw = response.getWriter();   
+        pw.print(json.toString());  
+        pw.close();
+    }
+复制代码
+ (3)homePage.html 页面根据（2）的返回值判断是否执行跳转操作
+
+复制代码
+$(document).ready(function(){
+            $.ajax({
+                url: "HomePageServlet",
+                type: "post",
+                dataType: "json",
+                success: function(data) {        
+                if (data["success"]) {
+                      ...
+                } 
+                else
+                {
+                    alert(data["meg"]);
+                    window.location.href="login.html";
+                }                            
+            }
+                
+        });
+    });
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

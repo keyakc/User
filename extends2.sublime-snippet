@@ -1,0 +1,32 @@
+<snippet>
+	<content><![CDATA[
+//拷贝一个对象
+function shallowCopy(src) {
+  var dst = {};
+  for (var prop in src) {
+    // if (src.hasOwnProperty(prop)) {//向左覆盖
+      dst[prop] = src[prop];
+    // }
+  }
+  return dst;
+};
+//深拷贝（o1/array）
+// function copy(o1) {
+// 	//会漏掉函数属性
+// 	var newObj=JSON.parse(JSON.stringify(o1)); 　　
+// return newObj;
+// }
+// 赋值属性（o1 extends o2）
+	// extend({a:1}, {b:1, a:2}) -> {a:1, b:1}
+function extend(o1, o2){
+	for(var i in o2) if(typeof o1[i] === 'undefined'){//向左补充
+		o1[i] = o2[i];
+	} 
+	return o1;
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>extends2</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+function A(v1,v2){
+	this.v1=v1||1;
+	this.v2=v2||[2,3];
+	this.setV2=function(v2) {
+		this.v2=v2;
+	};
+}
+A.prototype={
+	pv:{
+		s1:1,
+		s2:1
+	},
+	stack:[0,1],
+	getV1:function() {
+		concsole.log(this.v1);
+	},
+	setV1:function(v1) {
+		this.v1=v1;
+	}
+}
+var a1=new A(2,[4,5]);
+console.log(a1);
+// var b1=JSON.parse(JSON.stringify(a1)); 
+// console.log(b1);
+// a1.setV1(3);
+// console.log(a1);
+function B(){
+	A.call(this);//this指向new出的对象
+};
+B.prototype=JSON.parse(JSON.stringify(A.prototype));
+var b1=new B();
+var b2=new B(7,8);
+b1.stack.push(2);
+console.log(b1.stack);
+console.log(b2.stack);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>extends1</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>text.html</scope>
+</snippet>

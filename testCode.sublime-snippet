@@ -1,0 +1,67 @@
+<snippet>
+	<content><![CDATA[
+@RequestMapping(value="/code.do", produces="image/png")
+@ResponseBody
+public byte[] code(HttpSession session) throws IOException {
+	String code=code(4);
+	//将验证码保存到Session中
+	session.setAttribute("testCode",code);
+	byte[] bytes=createPng(code);
+	return bytes;
+}
+/**
+ * 生成验证码字符串 
+ * @param n 验证码位数
+ * @return 随机的验证码
+ */
+static String c = "abcdefhjkpqrdsyx345678ABCDEFGHJKLMNPQRSTUV";
+public String code(int n){
+	char[] code=new char[n];
+	Random r = new Random();
+	for(int i=0; i<n; i++){
+		code[i]=c.charAt(
+			r.nextInt(c.length()));
+	}
+	return new String(code);
+}
+
+/**
+ * 生成验证码图片
+ * @throws IOException 
+ */
+private byte[] createPng(String code) throws IOException {
+	//设置图片大小
+	BufferedImage img = new BufferedImage(100, 40, BufferedImage.TYPE_3BYTE_BGR);
+	Random r = new Random();
+	//同时设置100个随机颜色、随机位置的点
+	for(int i=0; i<100; i++){
+		int x = r.nextInt(100);
+		int y = r.nextInt(40);
+		int color=r.nextInt(0xffffff);
+		img.setRGB(x, y, color);
+	}
+	//Graphics2D负责写字符串
+	Graphics2D g2D = img.createGraphics();
+	//设置字体
+	Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 30);
+	g2D.setFont(font);
+	//设置颜色
+	Color color = new Color(r.nextInt(0xffffff));
+	g2D.setColor(color);
+	g2D.drawString(code, 10, 30);
+	//创建 "酱油瓶"
+	ByteArrayOutputStream out = new ByteArrayOutputStream();
+	//将图片数据装入输出流
+	ImageIO.write(img, "png", out);
+	//关闭流（数据依然在）
+	out.close();
+	//将"酱油瓶"中的数据(酱油)倒出来 
+	byte[] bytes = out.toByteArray();
+	return bytes;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>testCode</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

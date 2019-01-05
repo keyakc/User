@@ -1,0 +1,25 @@
+<snippet>
+	<content><![CDATA[
+function getStyle(element,cssPropertyName){
+  if(window.getComputedStyle){
+      //优先使用W3C规范
+     return window.getComputedStyle(element).getPropertyValue(cssPropertyName);
+     //getPropertyValue方法可直接使用CSS属性名称，不需要转换成驼峰模式；
+  }else{
+      //针对IE9以下兼容
+      return element.currentStyle.getAttribute(camelize(cssPropertyName));
+      //IE9以下使用getAttribute方法，而且属性名必须改为驼峰模式；
+  }
+}
+//属性名改成驼峰模式；
+function camelize(attr) {
+  return attr.replace(/-(\w)/g, function(match, p1) {
+      return p1.toUpperCase();
+  });
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>getStyle</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

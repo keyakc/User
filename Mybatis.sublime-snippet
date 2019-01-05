@@ -1,0 +1,170 @@
+<snippet>
+	<content><![CDATA[
+//file:mybatis-spring.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">	
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+	<context:property-placeholder location="classpath:db.properties"/>
+
+	<!-- spring和mybatis整合 -->
+	<!-- SqlSessionFactoryBean实例化sessionFactory
+		  dataSource依赖注入数据源
+		  mapperLocations配置映射文件的位置
+	 -->
+	<bean id="factoryBean" 
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 也可换成以@Results({@Result(column = "password", property = "pwd")})
+					@Select(sqlStr)的形式实现注释-->
+		<property name="mapperLocations" value="classpath:mappers/*.xml"/>
+		
+	</bean>
+	<!-- MapperScannerConfigurer 定义持久层接口的包名 -->
+	<bean id="scannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.tedu.ssm.mapper"/>
+	</bean>
+</beans>
+
+//file:db.properties
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/mydb1?useUnicode=true&characterEncoding=utf8
+jdbc.username=root
+jdbc.password=Mysql123456
+
+//filename:XxxMapper.xml
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace表示命名空间,值不能重复 -->
+
+	<mapper namespace="userMapper">
+		<!-- id属性, 给节点定义名字,不能重复-->
+		<!-- void insertUser(User user); 
+		parameterType表示方法的参数列表-->
+		<insert id="addUser" parameterType="entry.User">
+			insert into t_user(
+				name,pwd,email,phone
+			)values(
+				#{name},#{pwd},#{email},#{phone}
+			)			
+		</insert>
+		<update id="updateUser" parameterType="cn.tedu.store.bean.User">
+			update t_user
+			<set>
+				<if test="password!=null">
+					password = #{password},
+				</if>
+				<if test="username!=null">
+					username = #{username},
+				</if>
+				<if test="email!=null">
+					email = #{email},
+				</if>
+				<if test="gender!=null">
+					gender = #{gender},
+				</if>
+				<if test="phone!=null">
+					phone = #{phone}
+				</if>				
+			</set>
+			where
+				id = #{id}			
+		</update>		
+		<!-- 传参若为基本类型可不写 parameterType -->
+		<delete id="delUser">
+			delete from t_user
+			where 
+				id = #{id}
+		</delete>
+		<select id="selectGoodsByCategoryId" resultType="cn.tedu.store.bean.Goods">
+		    select
+		        id,
+		        category_id categoryId,
+		        item_type itemType,
+		        title,
+		        sell_point sellPoint,
+		        barcode,
+		        price,
+		        num,
+		        image,
+		        status,
+		        priority,
+		        created_user createdUser,
+		        created_time createdTime,
+		        modified_user modifiedUser,
+		        modified_time modifiedTime
+		    from
+		        t_goods
+		    where
+		        category_id = #{categoryId}
+		        and num>0 and status=1
+		    order by priority desc      
+
+		    limit #{offset},#{count}
+
+		</select>
+		
+		<!-- 传参为基本类型可不写 parameterType -->
+		<select id="selectUserById" resultMap="UserMap">
+			select 
+				u.id as userId,userName,courseName,corp,c.id as courseId 
+			from 
+				user u left join userCourse uc
+			on 
+				u.id = uc.user_id left join course c
+			on 
+				c.id = uc.course_id 
+			where 
+				u.id = #{id}
+		</select>
+
+		<resultMap id="UserMap" type="entry.User">
+			<constructor>
+				<idArg column="userId" javaType="int"/>
+				<arg column="userName" javaType="String"/>
+				<arg column="corp" javaType="String"/>
+			</constructor>
+			<collection property="courses" ofType="entry.Course">
+				<id property="id" column="courseId"/>
+				<result property="courseName" column="courseName"/>
+			</collection>
+		</resultMap>
+
+		<delete id="deleteByBatch">
+		    delete from t_cart
+		    where id in
+
+		    <!--collection表示变量的类型,如果是数组,array;
+		    item表示定义变量
+		    open表示以什么开始
+		    close表示以什么结束
+		    separator表示数据之间的分隔符
+		    -->
+		    <foreach collection="array" item="id" open="(" separator="," close=")">
+		        #{id}
+		    </foreach>
+		</delete>
+		
+	</mapper>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Mybatis</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

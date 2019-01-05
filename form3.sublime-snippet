@@ -1,0 +1,33 @@
+<snippet>
+	<content><![CDATA[
+// 时间控件
+<div class="control-group">
+	<label class="control-label">工作结束时间：</label>
+	<div class="controls">
+		<input id="endTime" name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate "
+			value="<fmt:formatDate value="${sysUserWorkInfo.endTime}" pattern="yyyy-MM-dd"/>"
+			onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});" onblur="regWorkInfoTimeB(this)"/>
+	</div>
+</div>
+
+// select控件
+<form:select path="contractType" class="input-xlarge">
+	<form:option value="" label="请选择"/>
+	<form:options items="${fns:getDictList('erp_user_contract_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+</form:select>
+
+
+// 树控件
+<sys:treeselect id="usereNo" name="usereNo" value="${sysUserSceneManagerInfo.usereNo}" labelName="" labelValue="${sysUserSceneManagerInfo.usereNo}"
+					title="用户" url="/sys/office/treeData?type=3" cssClass="" allowClear="true" notAllowSelectParent="true"/>
+// 隐藏
+<form:hidden id="certificationFileUrl" path="certificationFileUrl" htmlEscape="false" maxlength="500" class="input-xlarge"/>
+
+// 编辑上传空间
+<sys:ckfinder input="certificationFileUrl" type="files" uploadPath="/sys/sysUserSceneManagerInfo" selectMultiple="false"/>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>form3</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

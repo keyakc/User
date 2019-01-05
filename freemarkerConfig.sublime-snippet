@@ -1,0 +1,48 @@
+<snippet>
+	<content><![CDATA[
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	<property name="templateLoaderPath" value="/template/"/>		        
+ 	 <property name="freemarkerSettings">
+      <props>
+      	<!-- 对应<#if user> -->
+           <prop key="classic_compatible">true</prop>
+        </props>   		
+	</property>
+</bean>
+
+<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	<property name="viewResolvers">
+		<list>
+			<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver" id="viewResolver">
+				<property name="cache" value="true"></property>
+				<property name="prefix" value=""></property>
+				<property name="suffix" value=".ftl"></property>					 
+				<property name="contentType" value="text/html;charset=utf-8"></property>					
+            </bean>                
+        </list>
+    </property>
+	<property name="defaultViews">
+		<list>
+			<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
+		</list>
+	</property>			
+</bean>
+<mvc:annotation-driven/>
+
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="defaultEncoding" value="UTF-8" />		
+	<property name="maxUploadSize" value="1048576"/> 
+</bean> 
+
+//file:pox.xml
+freemarker
+spring-context-support 
+jackson-core
+jackson-databind
+commons-fileupload
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>freemarkerConfig</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

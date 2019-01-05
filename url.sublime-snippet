@@ -1,0 +1,22 @@
+<snippet>
+	<content><![CDATA[
+/*
+		 * 动态截取 URL 中的主机名
+		 * http://tedu.cn/java/index.html
+		 * http://canglaoshi.org/index.html
+		 * http://tmooc.cn/index.html 
+		 */
+		url="http://canglaoshi.org/index.html";
+		int index=url.indexOf("/", 7);
+		host=url.substring(7, index);
+		System.out.println(host);
+		//截取URL中的文件名
+		String file=url.substring(
+				url.lastIndexOf("/")+1);
+		System.out.println(file);
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>url</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

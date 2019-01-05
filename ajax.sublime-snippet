@@ -1,0 +1,63 @@
+<snippet>
+	<content><![CDATA[
+/**
+	 * options{
+	 * 	type:"GET",
+	 * 	url:"./",
+	 * 	data:{userName:value1,password:value2},
+	 * 	success:function(result){},
+	 * 	error:function(message){},
+	 * }
+	 * 
+	 */
+    var ajax = function(options) {
+        var options = options || {};
+        //参数按照大写标准
+        options.type = (options.type || "POST").toUpperCase();
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                var status = xhr.status;
+                if(status >= 200 && status < 300 || status == 304){
+                	var json = JSON.parse(xhr.responseText);
+                	if(json && json.code == 200){
+                		options.success && options.success(json.result);
+                	}else{
+                		options.error && options.error(json.message);
+                	}
+                }else{
+                    options.error && options.error('请求失败');
+                }
+            }
+        }
+        if(options.type == "POST"){
+            xhr.open("POST", options.url, true);
+            //对应表单的头设置           
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+             //若上传文件multipart/form-data
+            xhr.send(util.serialize(options.data));
+        }else{
+        	xhr.open("GET", options.url + "?" + formatParams(options.data), true);
+            xhr.send(null);
+        }
+    }    
+    
+    function serialize(jsObj){
+            if(!jsObj) return '';
+            var pairs=[];
+            for(var name in jsObj){
+                if(!jsObj.hasOwnProperty(name)) continue;//过滤出key
+                if(typeof jsObj[name]==='function') continue;//过滤掉函数
+                var value=jsObj[name].toString();
+                name = encodeURIComponent(name);
+                value = encodeURIComponent(value);
+                pairs.push(name + '=' + value);
+            }
+            return pairs.join('&');
+    }
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ajax</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

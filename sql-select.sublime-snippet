@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+/*增*/
+INSERT INTO table_name (p1, p2, p3) VALUES (v1, v2, v3);		
+INSERT INTO table_name VALUES (v1, v2, v3),(v11, v22, v33),(v111, v222, v333);	
+/*删*/
+DELET FROM table_name WHERE prop_name=VALUE;
+/*改*/
+UPDATE table_name SET p2=v2, p3=v3 WHERE p1=v1;
+/*查*/
+SELECT t1.p1, t1.p2, t1.p3 FROM table_name t1 LEFT OUTER JOIN table_name t2
+			ON t1.p1=t2.p11 WHERE t1.p2=?
+
+外链接
+select product.id,isBuy,isSell,title,summary,detail,image,price,buyPrice,buyNum,saleNum 
+from product LEFT OUTER JOIN trx 
+on product.id=trx.productId 
+where product.id=?
+
+/*and、or、between、in、like*/
+/*order by...desc、limit、group by...having*/
+ select p1,p2,p3 from table_name order by p2 desc,p3;
+
+where后面只能对普通字段进行筛选
+having写在 group by 后面,通常是和group by结合使用
+ select deptno,avg(sal) a from emp where ename like '%a%' group by deptno having a>2000;
+
+获取当前日期+时间 now() select now();
+获取当前日期 select curdate();
+获取当前时间 select curtime();
+从日期和时间中提取日期 select date(now());
+从日期和时间中提取时间 select time(now());
+案例: 查询商品创建的年月日 
+select date(createdtime) from titem
+提取年 月 日 时 分 秒 
+-select extract(year from now());	-select extract(month from now()); 
+-select extract(day from now()); -select extract(hour from now()); 
+-select extract(minute from now()); -select extract(second from now());
+案例:查询入职的年份	select extract(year from hiredate) from emp;
+日期格式化 dateformat() -格式: dateformat(时间,格式) -%Y 4位年 2018 -%y 2位年 18 -%m 2位月 05 -%c 1位月 5 -%d 日
+-%H 24小时 -%h 12小时 -%i 分 -%s 秒
+案例: select date_format(now(),'%Y年%m月%d日 %H时%i分%s秒');
+练习:查询商品的创建日期(createdtime) 年月日 select dateformat(createdtime,'%Y年%m月%d日') from titem;
+把不规则日期格式转成标准格式 -格式: strtodate(日期字符串,格式) select strtodate('25号12月2015年','%d号%m月%Y');
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sql-select</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

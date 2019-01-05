@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+create table ${1:table_name} (${2:prop_name} ${3:prop_type}(${4:prop_length}),${5:prop_name} ${6:prop_type}(${7:prop_length}),${8:prop_name} ${9:prop_type});
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>cre-tab</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
