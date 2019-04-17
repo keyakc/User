@@ -1,0 +1,223 @@
+<snippet>
+	<content><![CDATA[
+# 冒泡排序
+def bubble_sort(lis):
+	for i in range(len(lis) - 1):
+		for j in range(len(lis) - 1 - i):
+			if lis[j] > lis[j+1]:
+				lis[j],lis[j+1] = lis[j+1],lis[j]
+	return lis
+
+# x的n次方
+def power(x, n):
+	s = 1
+	while n > 0:
+		n -= 1
+		s *= x
+	return s
+
+# 各项平方和
+def calc(*numbers):
+	sum = 0
+	for n in numbers:
+		sum += n * n
+	return sum	
+
+# 阶乘
+# 方法1
+def factorial(n):
+	if(n == 1 or n == 0): # 0! = 1
+		return 1
+	return n * factorial(n - 1)
+
+# 方法2
+def factorial(n):
+	result = 1 # 0! = 1
+	for i in range(1, n + 1):
+		result *= i
+	return result
+
+# 输出路径下所有文件
+for item in os.listdir(filepath):
+	print(os.path.join(filepath, item))
+
+# 输出路径下所有文件及子文件
+def show_dir(filepath):
+    for item in os.listdir(filepath):
+        path = os.path.join(filepath, item)
+        print(path)
+        if os.path.isdir(path):
+            show_dir(path) # 递归
+
+filepath = r'C:\Users\Administrator\Documents\Python\package_runoob'
+show_dir(filepath)
+
+# 输出路径及子目录下所有以.html为结尾的文件
+def show_dir(filepath):
+    # print(os.getcwd())
+    for item in os.listdir(filepath):
+        path = os.path.join(filepath, item)
+        print(path)
+        # 如果是文件夹，展示子目录
+        if os.path.isdir(path):
+            show_dir(path)
+
+
+# filepath = r'C:\Users\Administrator\Documents\Python\package_runoob'
+filepath = './package_runoob'
+show_dir(filepath)
+
+# 吧原字典的键值对点到并生产新的字典
+dict1 = {'A':'a', 'B':'b', 'C':'c'}
+# 或 dict1 = dict(A='a', B='b', C='c')
+dict2 = {y:x for x,y in dict1.items()}
+print(dict2)
+
+# 9×9乘法表
+for i in range(1, 10):
+    for j in range(1, i + 1):
+        print('%d × %d = %d \t' % (j, i, i * j), end='')
+    print()
+
+# 替换李彪中所有的3为3a
+num = ['harden','lampard',3,34,35,3,43,4,3]
+print('count',num.count(3))
+print('index',num.index(3))
+n = num.count(3)
+for i in range(n):
+    ele_index = num.index(3)
+    num[ele_index] = "3a"
+    print(num)
+
+# 下标方式遍历list
+L = ['james','meng','xin']
+for i in range(len(L)):
+    print ('hello', L[i])
+
+# list合并转set
+L1 = ['james','meng','xin']
+L2 = ['james','meng','wang','li']
+L3 = L1 + L2
+L3 = set(L3) # list转set去重
+print(list(L3))
+
+# 随机验证码1
+import random
+list1 = []
+for i in range(65, 91):
+    list1.append(chr(i))
+for j in range(97, 123):
+    list1.append(chr(j))
+for k in range(48,58):
+    list1.append(chr(k))
+print(list1)
+ma = random.sample(list1, 6)  # 随机从list中抽样
+print(ma)
+ma = ''.join(ma)  # list 转字符串
+print(ma)
+
+# 随机验证码2
+import random, string
+str1 = '0123456789'
+str2 = string.ascii_letters
+print('str2 is', str2)
+str3 = str1 + str2
+ma1 = random.sample(str3, 6)  # 字符串中随机抽样
+ma1 = ''.join(ma1)
+print(ma1)
+
+# 猜数字
+import random, string
+
+i = 1
+a = random.randint(0, 100)  # 取随机整数
+b = int(input('请输入0-100中的数字\n然后查看是否和电脑一样：'))
+while a != b:
+    if a > b:
+        print('你第%d此输入的数字小于随机数字' % i)
+        b = int(input('请在此输入数字：'))
+    else:
+        print('你第%d此输入的数字大于随机数字' % i)
+        b = int(input('请在此输入数字：'))
+    i += 1
+else:
+    print('恭喜你，你第%d次输入的数字与电脑的随机数字%d一样' % (i, b))
+
+# 平方根
+num = float(input('please input a number'))
+num_sqrt = num ** .5
+print('%.2f 的平方根为 %.2f' % (num, num_sqrt) )
+
+# 判断字符串是否由纯数字组成
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        import  unicodedata
+        unicodedata.numeric(s)
+        return True
+    except (TypeError, ValueError):
+        pass
+    return False
+chri = input('input a string')
+print(is_number(chri))
+# 其他方法
+print(chri.isdigit())
+print(chri.isnumeric())
+
+# 闰年1
+year = int(input("please input a year"))
+if year % 4 == 0:
+    if year % 100 == 0:
+        if year % 400 == 0:
+            print('%d 是闰年' % year)  # 整百年中能被400整除的是闰年
+        else:
+            print('%d 不是闰年' % year)
+    else:
+        print("%d 是闰年" % year)  # 非整百能被4整除的是闰年
+else:
+    print("%d 不是闰年" % year)
+
+# 闰年2
+if(year % 4 == 0 and (year % 400 == 0 or year % 100 != 0)):
+    print('是闰年')
+else:
+    print('不是闰年')
+
+# 闰年3
+import calendar
+check_year = calendar.isleap(year)
+if(calendar.isleap(year)):
+    print('是闰年')
+else:
+    print('不是闰年')
+
+# 最大公约数
+def hcf(x, y):
+    '''最大公约数'''
+    if x > y :
+        smaller = y
+    else :
+        smaller = x
+
+    i = smaller
+    while(i >= 1):
+        if ( (x % i == 0) and (y % i == 0)):
+            return i
+        i -= 1
+
+num1 = int(input('输入第一个数字'))
+num2 = int(input('输入第二个数字'))
+
+print(num1, '和', num2, '的最大公约数为', hcf(num1, num2))
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>py-utils</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

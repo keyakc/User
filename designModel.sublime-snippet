@@ -1,0 +1,52 @@
+<snippet>
+	<content><![CDATA[
+
+// 饿汉单例模式
+// 优点：没有加锁，执行效率会提高。
+// 缺点：类加载时就初始化，浪费内存。
+//让构造函数为 private，这样外部被实例化时无法通过编译
+private SingleObject() {
+    System.out.println("new a SingleObject");
+}
+// 类加载时实例化一个实例。由于外部不能实例化，成为唯一可用的对象。
+// 初始化时加载，且只初始化一次
+private static SingleObject instance = new SingleObject();
+public static SingleObject getInstance(){return instance;}
+public void showMessage(){System.out.println("Hello world");}
+
+// 懒汉单例模式
+// 优点：第一次调用才初始化，避免内存浪费。
+// 缺点：必须加锁 synchronized 才能保证单例，但加锁会影响效率。
+private  static Singleton instance;
+private Singleton(){}
+// 同步锁 + 判断保证单例
+public static synchronized Singleton getInstance(){
+    if(instance == null){
+        instance = new Singleton();
+    }
+    return instance;
+}
+
+// 双检索/双重校验锁
+// 这种方式采用双锁机制，安全且在多线程情况下能保持高性能。
+// getInstance() 的性能对应用程序很关键。
+private volatile static Singleton singleton;  
+private Singleton (){}  
+public static Singleton getSingleton() {  
+    if (singleton == null) {  
+        synchronized (Singleton.class) {  
+	        if (singleton == null) {  
+	            singleton = new Singleton();  
+	        }  
+        }  
+    }  
+    return singleton;  
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>designModel</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

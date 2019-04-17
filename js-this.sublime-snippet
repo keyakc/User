@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+<script>
+	var obj = {
+		a : this,
+		b : function () {
+			console.log('函数内this ')
+			console.log(this);
+			// setInterval(function(){console.log(this)},500);
+		},
+		c : 5,
+	}
+	console.log(obj.a);
+	obj.b();
+
+	function obj1(options){
+		var a = 2,b=3;
+		console.log('a ' + a);
+		console.log('this.a '+this.a);
+		console.log('函数内this ')
+		console.log(this);
+		// setInterval(function(){console.log(this)},500);	
+	}
+	obj1 = new obj1();
+</script>
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>js-this</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
